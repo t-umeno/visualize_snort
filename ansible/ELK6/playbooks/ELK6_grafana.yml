@@ -4,9 +4,8 @@
     - version.yml
     - config.yml
   environment:
-    super_mediator_version: "{{ super_mediator_version }}"
-    yaf_version: "{{ yaf_version }}"
-    fixbuf_version: "{{ fixbuf_version }}"
+    snort_version: "{{ snort_version }}"
+    daq_version: "{{ daq_version }}"
   connection: local
   pre_tasks:
     - set_fact: home_dir="{{ ansible_env.HOME }}"
@@ -22,51 +21,47 @@
         - curl
         - jq
         - wireshark
-        - libglib2.0-dev
-        - libssl-dev
-        - openssl
         - libpcap-dev
-        - libndpi-dev
-        - libndpi-bin
+        - libpcre3-dev
+        - libdumbnet-dev
+        - bison
+        - flex
         - mysql-server
         - mysql-client
         - libmysqlclient-dev
-    - name: compile libp0f.tgz
-      script: scripts/compile_libp0f.sh
+        - autoconf
+        - libtool
+        - zlib1g-dev
+        - liblzma-dev
+        - openssl
+        - libssl-dev
+        - libnghttp2-dev
+        - libcrypt-ssleay-perl
+        - liblwp-useragent-determined-perl
+    - name: compile daq
+      script: scripts/compile_daq.sh
       become: yes
-    - name: compile fixbuf
-      script: scripts/compile_fixbuf.sh
-      become: yes
-    - name: compile yaf
-      script: scripts/compile_yaf.sh
-      become: yes
-    - name: compile super_mediator
-      script: scripts/compile_super_mediator.sh
+    - name: compile snort
+      script: scripts/compile_snort.sh
       become: yes
     - name: mkdir
       file: path={{ item }}  state=directory mode=0755
       with_items:
-        - ~/yaf/json
-        - ~/yaf/log
+        - ~/snort/log
         - ~/bin
         - ~/etc
         - ~/.curator
     - name: copy shell scripts
       copy: src=files/{{ item }} dest=~/bin/{{ item }} mode=0755
       with_items:
-        - yaf.sh
-        - yaf_ndpi.sh
-        - super_mediator.sh
         - logstash_config_test.sh
     - name: copy curator file
       copy: src=files/{{ item }} dest=~/.curator/{{ item }}
       with_items:
         - curator.yml
-        - delete_indices_yaf.yml
+        - delete_indices_snort.yml
     - name: set crontab
       script: scripts/cron_curator.sh
-    - name: copy super_mediator config file
-      template: src=templates/super_mediator.conf.j2 dest=~/etc/super_mediator.conf
   roles:
     - role: elasticsearch
     - role: logstash
