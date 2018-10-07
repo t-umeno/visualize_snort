@@ -44,6 +44,9 @@
     - name: compile snort
       script: scripts/compile_snort.sh
       become: yes
+    - name: install pulledpork
+      script: scripts/install_pulledpork.sh
+      become: yes
     - name: mkdir
       file: path={{ item }}  state=directory mode=0755
       with_items:
