@@ -44,6 +44,12 @@
     - name: compile snort
       script: scripts/compile_snort.sh
       become: yes
+    - name: install snort rule
+      script: scripts/install_snort_rule.sh
+      become: yes
+    - name: remove snort file
+      script: scripts/compile_snort_after.sh
+      become: yes
     - name: install pulledpork
       script: scripts/install_pulledpork.sh
       become: yes
