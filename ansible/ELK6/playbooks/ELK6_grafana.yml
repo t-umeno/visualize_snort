@@ -47,6 +47,12 @@
     - name: install snort rule
       script: scripts/install_snort_rule.sh
       become: yes
+    - name: edit /etc/snort/snort.conf
+      replace:
+        path: /etc/snort/snort.conf
+        regexp: '^ipvar HOME_NET any$'
+        replace: 'ipvar HOME_NET {{ snort_home_net }}'
+      become: yes
     - name: remove snort file
       script: scripts/compile_snort_after.sh
       become: yes
