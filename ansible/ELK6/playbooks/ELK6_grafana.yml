@@ -47,11 +47,47 @@
     - name: install snort rule
       script: scripts/install_snort_rule.sh
       become: yes
-    - name: edit /etc/snort/snort.conf
+    - name: edit HOME_NET in /etc/snort/snort.conf
       replace:
         path: /etc/snort/snort.conf
         regexp: '^ipvar HOME_NET any$'
         replace: 'ipvar HOME_NET {{ snort_home_net }}'
+      become: yes
+    - name: edit RULE_PATH in /etc/snort/snort.conf
+      replace:
+        path: /etc/snort/snort.conf
+        regexp: '^var RULE_PATH ../rules$'
+        replace: 'var RULE_PATH /etc/snort/rules'
+      become: yes
+    - name: edit SO_RULE_PATH in /etc/snort/snort.conf
+      replace:
+        path: /etc/snort/snort.conf
+        regexp: '^var SO_RULE_PATH ../so_rules$'
+        replace: 'var SO_RULE_PATH /etc/snort/so_rules'
+      become: yes
+    - name: edit PREPROC_RULE_PATH in /etc/snort/snort.conf
+      replace:
+        path: /etc/snort/snort.conf
+        regexp: '^var PREPROC_RULE_PATH /etc/snort/preproc_rules$'
+        replace: 'var PREPROC_RULE_PATH /etc/snort/preproc_rules'
+      become: yes
+    - name: edit WHITE_LIST_PATH in /etc/snort/snort.conf
+      replace:
+        path: /etc/snort/snort.conf
+        regexp: '^var WHITE_LIST_PATH ../rules$'
+        replace: 'var WHITE_LIST_PATH /etc/snort/rules/iplists'
+      become: yes
+    - name: edit BLACK_LIST_PATH in /etc/snort/snort.conf
+      replace:
+        path: /etc/snort/snort.conf
+        regexp: '^var BLACK_LIST_PATH ../rules$'
+        replace: 'var BLACK_LIST_PATH /etc/snort/rules/iplists'
+      become: yes
+    - name: remove comment include RULE_PATH/local.rules
+      replace:
+        path: /etc/snort/snort.conf
+        regexp: '^#include $RULE_PATH/local.rules$'
+        replace: 'include $RULE_PATH/local.rules'
       become: yes
     - name: remove snort file
       script: scripts/compile_snort_after.sh
