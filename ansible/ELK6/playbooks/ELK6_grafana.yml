@@ -86,7 +86,7 @@
     - name: remove comment include RULE_PATH/local.rules
       replace:
         path: /etc/snort/snort.conf
-        regexp: '^#include $RULE_PATH/local.rules$'
+        regexp: '^#include \$RULE_PATH/local.rules$'
         replace: 'include $RULE_PATH/local.rules'
       become: yes
     - name: remove snort file
