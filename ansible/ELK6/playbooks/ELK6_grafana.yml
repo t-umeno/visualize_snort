@@ -98,21 +98,21 @@
     - name: edit rule_url in /etc/snort/pulledpork.conf
       replace:
         path: /etc/snort/pulledpork.conf
-        regexp: '^rule_url=https://www.snort.org/reg-rules/|snortrules-snapshot.tar.gz|<oinkcode>$'
+        regexp: '^rule_url=https://www.snort.org/reg-rules/\|snortrules-snapshot.tar.gz\|<oinkcode>$'
         replace: 'rule_url=https://www.snort.org/reg-rules/|snortrules-snapshot.tar.gz|{{ pulledpork_oinkcode }}'
       become: yes
       when: pulledpork_oinkcode is defined
     - name: comment out rule_url in /etc/snort/pulledpork.conf
       replace:
         path: /etc/snort/pulledpork.conf
-        regexp: '^rule_url=https://www.snort.org/reg-rules/|snortrules-snapshot.tar.gz|<oinkcode>$'
+        regexp: '^rule_url=https://www.snort.org/reg-rules/\|snortrules-snapshot.tar.gz\|<oinkcode>$'
         replace: '#rule_url=https://www.snort.org/reg-rules/|snortrules-snapshot.tar.gz|<oinkcode>'
       become: yes
       when: pulledpork_oinkcode is not defined
     - name: un-comment emerging.rules.tar.gz in /etc/snort/pulledpork.conf
       replace:
         path: /etc/snort/pulledpork.conf
-        regexp: '^#rule_url=https://rules.emergingthreats.net/|emerging.rules.tar.gz|open-nogpl$'
+        regexp: '^#rule_url=https://rules.emergingthreats.net/\|emerging.rules.tar.gz\|open-nogpl$'
         replace: 'rule_url=https://rules.emergingthreats.net/|emerging.rules.tar.gz|open-nogpl'
       become: yes
     - name: edit rule_path in /etc/snort/pulledpork.conf
