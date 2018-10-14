@@ -157,6 +157,16 @@
         regexp: '^IPRVersion=/usr/local/etc/snort/rules/iplists$'
         replace: 'IPRVersion=/etc/snort/rules/iplists'
       become: yes
+    - name: exec pulledpork
+      script: scripts/pulledpork.sh
+      become: yes
+    - name: add snort_rules in /etc/snort/snort.conf
+      blockinfile:
+        dest: /etc/snort/snort.conf
+        insertafter: EOF
+        block: |
+          include $RULE_PATH/snort.rules
+      become: yes
     - name: mkdir
       file: path={{ item }}  state=directory mode=0755
       with_items:
