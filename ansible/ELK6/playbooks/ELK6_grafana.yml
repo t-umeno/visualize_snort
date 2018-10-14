@@ -83,7 +83,7 @@
         regexp: '^var BLACK_LIST_PATH ../rules$'
         replace: 'var BLACK_LIST_PATH /etc/snort/rules/iplists'
       become: yes
-    - name: remove comment include RULE_PATH/local.rules
+    - name: un-comment include RULE_PATH/local.rules
       replace:
         path: /etc/snort/snort.conf
         regexp: '^#include \$RULE_PATH/local.rules$'
@@ -94,6 +94,68 @@
       become: yes
     - name: install pulledpork
       script: scripts/install_pulledpork.sh
+      become: yes
+    - name: edit rule_url in /etc/snort/pulledpork.conf
+      replace:
+        path: /etc/snort/pulledpork.conf
+        regexp: '^rule_url=https://www.snort.org/reg-rules/|snortrules-snapshot.tar.gz|<oinkcode>$'
+        replace: 'rule_url=https://www.snort.org/reg-rules/|snortrules-snapshot.tar.gz|{{ pulledpork_oinkcode }}'
+      become: yes
+      when: pulledpork_oinkcode is defined
+    - name: comment out rule_url in /etc/snort/pulledpork.conf
+      replace:
+        path: /etc/snort/pulledpork.conf
+        regexp: '^rule_url=https://www.snort.org/reg-rules/|snortrules-snapshot.tar.gz|<oinkcode>$'
+        replace: '#rule_url=https://www.snort.org/reg-rules/|snortrules-snapshot.tar.gz|<oinkcode>'
+      become: yes
+      when: pulledpork_oinkcode is not defined
+    - name: un-comment emerging.rules.tar.gz in /etc/snort/pulledpork.conf
+      replace:
+        path: /etc/snort/pulledpork.conf
+        regexp: '^#rule_url=https://rules.emergingthreats.net/|emerging.rules.tar.gz|open-nogpl$'
+        replace: 'rule_url=https://rules.emergingthreats.net/|emerging.rules.tar.gz|open-nogpl'
+      become: yes
+    - name: edit rule_path in /etc/snort/pulledpork.conf
+      replace:
+        path: /etc/snort/pulledpork.conf
+        regexp: '^rule_path=/usr/local/etc/snort/rules/snort.rules$'
+        replace: 'rule_path=/etc/snort/rules/snort.rules'
+      become: yes
+    - name: edit local_rules in /etc/snort/pulledpork.conf
+      replace:
+        path: /etc/snort/pulledpork.conf
+        regexp: '^local_rules=/usr/local/etc/snort/rules/local.rules$'
+        replace: 'local_rules=/etc/snort/rules/local.rules'
+      become: yes
+    - name: edit sid_msg in /etc/snort/pulledpork.conf
+      replace:
+        path: /etc/snort/pulledpork.conf
+        regexp: '^sid_msg=/usr/local/etc/snort/sid-msg.map$'
+        replace: 'sid_msg=/etc/snort/sid-msg.map'
+      become: yes
+    - name: edit config_path in /etc/snort/pulledpork.conf
+      replace:
+        path: /etc/snort/pulledpork.conf
+        regexp: '^config_path=/usr/local/etc/snort/snort.conf$'
+        replace: 'config_path=/etc/snort/snort.conf'
+      become: yes
+    - name: edit distro in /etc/snort/pulledpork.conf
+      replace:
+        path: /etc/snort/pulledpork.conf
+        regexp: '^distro=FreeBSD-8-1$'
+        replace: 'distro=Ubuntu-12-04'
+      become: yes
+    - name: edit black_list in /etc/snort/pulledpork.conf
+      replace:
+        path: /etc/snort/pulledpork.conf
+        regexp: '^black_list=/usr/local/etc/snort/rules/iplists/default.blacklist$'
+        replace: 'black_list=/etc/snort/rules/iplists/black_list.rules'
+      become: yes
+    - name: edit IPRVersion in /etc/snort/pulledpork.conf
+      replace:
+        path: /etc/snort/pulledpork.conf
+        regexp: '^IPRVersion=/usr/local/etc/snort/rules/iplists$'
+        replace: 'IPRVersion=/etc/snort/rules/ipliss'
       become: yes
     - name: mkdir
       file: path={{ item }}  state=directory mode=0755
