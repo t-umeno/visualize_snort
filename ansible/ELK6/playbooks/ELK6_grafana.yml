@@ -155,7 +155,7 @@
       replace:
         path: /etc/snort/pulledpork.conf
         regexp: '^IPRVersion=/usr/local/etc/snort/rules/iplists$'
-        replace: 'IPRVersion=/etc/snort/rules/ipliss'
+        replace: 'IPRVersion=/etc/snort/rules/iplists'
       become: yes
     - name: mkdir
       file: path={{ item }}  state=directory mode=0755
