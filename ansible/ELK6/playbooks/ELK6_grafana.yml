@@ -13,9 +13,11 @@
       script: scripts/set_timezone.sh {{ timezone }}
       become: yes
     - name: install apt packages
-      apt: pkg={{ item }} update_cache=yes
-      become: yes
-      with_items:
+      apt:
+        name: "{{ packages }}"
+        update_cache: yes
+      vars:
+        packages:
         - ntp
         - git
         - curl
@@ -38,6 +40,7 @@
         - libnghttp2-dev
         - libcrypt-ssleay-perl
         - liblwp-useragent-determined-perl
+      become: yes
     - name: compile daq
       script: scripts/compile_daq.sh
       become: yes
