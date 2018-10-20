@@ -4,28 +4,30 @@
     update_cache: yes
   vars:
     packages:
-    - ntp
-    - git
-    - curl
-    - jq
-    - wireshark
+    - build-essential
     - libpcap-dev
     - libpcre3-dev
     - libdumbnet-dev
     - bison
     - flex
-    - mysql-server
-    - mysql-client
-    - libmysqlclient-dev
-    - autoconf
-    - libtool
     - zlib1g-dev
     - liblzma-dev
     - openssl
     - libssl-dev
     - libnghttp2-dev
+    - mysql-server
+    - libmysqlclient-dev
+    - mysql-client
+    - autoconf
+    - libtool
     - libcrypt-ssleay-perl
     - liblwp-useragent-determined-perl
+
+    - ntp
+    - git
+    - curl
+    - jq
+    - wireshark
   become: yes
 - name: compile daq
   script: scripts/compile_daq.sh
