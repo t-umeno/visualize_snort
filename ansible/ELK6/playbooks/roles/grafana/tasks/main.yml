@@ -7,7 +7,6 @@
     update_cache: yes
   vars:
     packages:
-  with_items:
     - grafana
   become: yes
   notify: restart grafana-server
