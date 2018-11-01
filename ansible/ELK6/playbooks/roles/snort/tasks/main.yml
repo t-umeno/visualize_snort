@@ -157,7 +157,7 @@
     insertafter: EOF
     block: |
       include $RULE_PATH/snort.rules
-      output alert_csv: /var/log/snort/alert.csv default
+      output alert_fast: /var/log/snort/alert.log
   become: yes
 - name: copy systemd startup script
   copy: src=files/snort.service  dest=/lib/systemd/system/snort.service
