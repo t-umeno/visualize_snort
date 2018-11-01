@@ -15,6 +15,6 @@
     - logstash
   become: yes
 - name: copy logstash config file
-  template: src=templates/logstash_ipfix.conf.j2 dest=/etc/logstash/conf.d/logstash_ipfix.conf
+  copy: src=files/logstash_snort.conf dest=/etc/logstash/conf.d/logstash_snort.conf
   become: yes
   notify: restart logstash
