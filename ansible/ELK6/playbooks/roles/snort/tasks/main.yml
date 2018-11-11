@@ -142,8 +142,12 @@
     regexp: '^IPRVersion=/usr/local/etc/snort/rules/iplists$'
     replace: 'IPRVersion=/etc/snort/rules/iplists'
   become: yes
+- name: copy pulledpork.sh
+  template: src=templates/pulledpork.sh.j2 dest=/usr/local/bin/pulledpork.sh
+  mode: 0755
+  become: yes
 - name: exec pulledpork
-  script: scripts/pulledpork.sh
+  script: /usr/local/bin/pulledpork.sh
   become: yes
 - name: add snort_rules in /etc/snort/snort.conf
   blockinfile:
