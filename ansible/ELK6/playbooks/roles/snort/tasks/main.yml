@@ -143,8 +143,7 @@
     replace: 'IPRVersion=/etc/snort/rules/iplists'
   become: yes
 - name: copy pulledpork.sh
-  template: src=templates/pulledpork.sh.j2 dest=/usr/local/bin/pulledpork.sh
-  mode: 0755
+  template: src=templates/pulledpork.sh.j2 dest=/usr/local/bin/pulledpork.sh mode=0755
   become: yes
 - name: exec pulledpork
   script: /usr/local/bin/pulledpork.sh
