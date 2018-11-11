@@ -22,12 +22,6 @@
     - libtool
     - libcrypt-ssleay-perl
     - liblwp-useragent-determined-perl
-
-    - ntp
-    - git
-    - curl
-    - jq
-    - wireshark
   become: yes
 - name: compile daq
   script: scripts/compile_daq.sh
