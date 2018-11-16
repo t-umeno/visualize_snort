@@ -161,7 +161,7 @@
     dest: /etc/crontab
     insertafter: EOF
     block: |
-      10 2    * * *   root   /usr/local/bin/pulledpork.sh && [ -e /var/log/snort/snort/snort_enp0s8.pid ] && kill -HUP `cat  /var/log/snort/snort_enp0s8.pid`
+      10 2    * * *   root   /usr/local/bin/pulledpork.sh
   become: yes
 - name: copy systemd startup script
   copy: src=files/snort.service  dest=/lib/systemd/system/snort.service
