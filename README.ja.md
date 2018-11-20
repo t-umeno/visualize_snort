@@ -1,4 +1,4 @@
-# visualize_network_traffic
+# visualize_snort
 snortのログを可視化します。
 
 ## ELK6
