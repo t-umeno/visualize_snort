@@ -41,8 +41,8 @@
       with_items:
         - curator.yml
         - delete_indices_snort.yml
-    - name: set crontab
-      script: scripts/cron_curator.sh
+    - name: install curator cron job
+      cron: name="curator" minute="3" hour="5" user={{ ansible_env.USER }} job="curator ~/.curator/delete_indices_snort.yml"
   roles:
     - role: snort
     - role: elasticsearch
